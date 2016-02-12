@@ -22,8 +22,10 @@
         var ctx = canvas.getContext("2d");
         
         redrawAll(ctx);
+
+        // if(_this.currentPic != )
         
-        // window.setTimeout(timerFired, 1000 / 60);
+        window.setTimeout(timerFired, 1000 / 60); //only needs to be done once?
     }
 
     function redrawAll(){
@@ -130,8 +132,7 @@
       ctx.fillText(msg,348,538);
 
  
-
-
+      var last = _this.currentPic;
 
       // save canvas image as data url (png format by default)
       var dataURL = canvas.toDataURL();
