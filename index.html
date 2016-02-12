@@ -1,18 +1,55 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+  <!-- Uh, hey, welcome to the source nerd, gtfo, or take a look around its p straight forward -->
+  <!-- by bradenleague -->
+  <!-- THE LIFE OF PABLO V1 -->
+  <meta charset="UTF-8">
+  <title>THE LIFE OF PABLO</title>
   <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
+        body {
+          margin: 0px;
+          padding: 0px;
+          background-color:#f78c58;
+        }
+
+        p {
+          font-family: 'Open Sans';
+          font-size: 14px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 400;
+          line-height: 20px;
+        }
+
+
+        .inputSpot{
+          position: absolute;
+          background-color: grey;
+          width: 25%;
+          height: 120px; 
+          
+        }
+
+        #canvasImg{
+          position: absolute;
+          left: 50%;
+          top: 5%;
+          margin-left: -300px;
+        }        
+
+
     </style>
   </head>
   <body>
-  <input type="file" id="uploadElement" accept="image/*">
+    <div class="inputSpot">
+      <p>Upload an Image to get started, right click to save</p>
+      <input type="file" id="uploadElement" accept="image/*"></input>
+      <input type="text" id="message"> </input>
+    </div>
     <canvas id="myCanvas" width="600" height="600" style="display:none";></canvas>
-    <img id="canvasImg" alt="THE LIFE OF PABLO">
+    <img id="canvasImg" alt="">
     <script type="text/javascript">
 
     var _this = new Object();
@@ -22,16 +59,13 @@
         var ctx = canvas.getContext("2d");
         
         redrawAll(ctx);
-
-        // if(_this.currentPic != )
-        
-        window.setTimeout(timerFired, 1000 / 60); //only needs to be done once?
+        window.setTimeout(timerFired, 1000 / 60); //only needs to be done once? try checking if the image or text changed
     }
 
     function redrawAll(){
       var canvas = document.getElementById('myCanvas');
       var ctx = canvas.getContext('2d');
-      var msg = "THE LIFE OF PABLO"
+      var msg = _this.msg;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -42,7 +76,7 @@
       ctx.fillStyle = "#f78c58";
       ctx.fillRect(0,0, canvas.width, canvas.height);
 
-      ctx.drawImage(_this.currentPic,40,450, _this.imageWidth, _this.imageHeight);
+      ctx.drawImage(_this.currentPic,68,450, _this.imageWidth, _this.imageHeight);
       // font
       ctx.font = "bold 17px Arial";
       ctx.fillStyle = "#000";
@@ -131,9 +165,6 @@
       ctx.fillText(msg,348,518);
       ctx.fillText(msg,348,538);
 
- 
-      var last = _this.currentPic;
-
       // save canvas image as data url (png format by default)
       var dataURL = canvas.toDataURL();
 
@@ -154,25 +185,36 @@
     function updatePic(sourceImage){
         var img = new Image();
         img.onload = function(){
-            
             _this.imageWidth = 140;
             _this.imageHeight = 95;
             _this.currentPic = img;
         }
         img.src = sourceImage;
-redrawAll();
+        redrawAll();
     }
 
     $(document).ready(function(){
+        _this.currentPic = null;
+        _this.message = null
         // links the upload function to a change in the file input
         $("#uploadElement").change(handlePicUpload);
+        $("#message").val("THE LIFE OF PABLO");
 
-        _this.currentPic = null;
-
+        $("#message").change(function(){
+          var message = $('input:text').val();
+          _this.msg = message;
+        });
+       
+        if(_this.message == null){
+          _this.msg = "THE LIFE OF PABLO";
+          _this.imageWidth = 140;
+          _this.imageHeight = 95;
+          updatePic('kayne.png');
+        } else {
+          _this.msg = message;
+        }
         timerFired();
     });
-
-
     </script>
   </body>
 </html>      
